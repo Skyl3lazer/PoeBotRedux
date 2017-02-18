@@ -10,6 +10,8 @@ using System.Threading;
 using ChatSharp;
 using System.Data;
 using ChatSharp.Events;
+using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace PoeBotRedux
 {
@@ -18,14 +20,13 @@ namespace PoeBotRedux
         private static SystemSettings systemSettings;
         private static IrcClient client;
         private static InviteManagemer inviteManager;
-        private static string[] admins = { "skyl3lazer" };
+        private static List<IrcUser> admins;
         static void Main(string[] args)
         {
             systemSettings = new SystemSettings();
             inviteManager = new InviteManagemer();
 
             Client();
-            WhoIs();
             Listen();
 
             client.ConnectAsync();
@@ -35,17 +36,10 @@ namespace PoeBotRedux
         private static bool Client()
         {
             client = new IrcClient(systemSettings.getServerName(), new IrcUser(systemSettings.getNick(), systemSettings.getUserName(), systemSettings.getUserPassword()));
+            admins = new List<IrcUser>();
 
             client.ConnectionComplete += (s, e) => client.JoinChannel(systemSettings.getChannelName());
 
-            return true;
-        }
-        private static bool WhoIs()
-        {
-            client.WhoIsReceived += (s, e) =>
-            {
-
-            };
             return true;
         }
         private static bool Listen()
@@ -61,7 +55,7 @@ namespace PoeBotRedux
                 {
                     Invite(channel, e);
                 }
-                else if (e.PrivateMessage.Message == "!getinvites")
+                else if (e.PrivateMessage.Message == "!getinvites" || e.PrivateMessage.Message == "!queue")
                 {
                     GetInvites(channel, e);
                 }
@@ -78,7 +72,7 @@ namespace PoeBotRedux
             client.SendNotice("!invite <SA_Username> - Request an invite for the given SA user", e.PrivateMessage.User.Nick);
             client.SendNotice("!getinvites - See a list of pending invites", e.PrivateMessage.User.Nick);
             //Admin Commands
-            if (e.PrivateMessage.User.User.StartsWith("@") || e.PrivateMessage.User.User.StartsWith("~") || e.PrivateMessage.User.User.StartsWith("%"))
+            if (IsAdmin(channel, e.PrivateMessage.User))
             {
                 client.SendNotice("Admin Commands:", e.PrivateMessage.User.Nick);
                 client.SendNotice("!added <saname> <charname> - Report that you've invited SA user with the specified charactername", e.PrivateMessage.User.Nick);
@@ -94,7 +88,7 @@ namespace PoeBotRedux
                 Result res = inviteManager.AddPendingInvite(saname, e.PrivateMessage.User.Nick);
                 if (res.GetSuccess())
                 {
-                    channel.SendMessage("Added " + e.PrivateMessage.User.Nick + " to the invite queue.");
+                    channel.SendMessage("Added " + e.PrivateMessage.User.Nick + " to the invite queue. Make sure your CHARACTER NAME is on your SA Profile.");
                     Console.WriteLine("Added " + e.PrivateMessage.User.Nick + " to the invite queue.");
                 }
                 else
@@ -114,32 +108,67 @@ namespace PoeBotRedux
         private static void GetInvites(IrcChannel channel, PrivateMessageEventArgs e)
         {
             Console.WriteLine(e.PrivateMessage.User.Nick + " requested invites list");
+
             DataTable dt = inviteManager.GetPendingInvites();
+            client.SendNotice("Pending Invites:", e.PrivateMessage.User.Nick);
             foreach (DataRow row in dt.Rows)
             {
-                client.SendNotice("User " + row["sa_name"].ToString() + " - " + row["date_requested"].ToString() + " - https://forums.somethingawful.com/member.php?action=getinfo&username=" + row["sa_name"].ToString(), e.PrivateMessage.User.Nick);
+                client.SendNotice("User " + row["sa_name"].ToString() + "[irc:"+row["irc_name"].ToString()+"] - " + row["date_requested"].ToString() + " - https://forums.somethingawful.com/member.php?action=getinfo&username=" + row["sa_name"].ToString(), e.PrivateMessage.User.Nick);
             }
             if (dt.Rows.Count == 0)
             {
                 client.SendNotice("No outstanding invites.", e.PrivateMessage.User.Nick);
             }
-            else if (e.PrivateMessage.User.User.StartsWith("@") || e.PrivateMessage.User.User.StartsWith("~") || e.PrivateMessage.User.User.StartsWith("%"))
+            else
             {
-                client.SendNotice("Additionally, as an inviter you can use !added <SAName> <Charactername> to mark a user as invited.", e.PrivateMessage.User.Nick);
+                if (IsAdmin(channel, e.PrivateMessage.User))
+                {
+                    client.SendNotice("Additionally, as an inviter you can use !added <SAName> <Charactername> to mark a user as invited.", e.PrivateMessage.User.Nick);
+                }
             }
         }
         private static void Added(IrcChannel channel, PrivateMessageEventArgs e)
         {
-            if (!e.PrivateMessage.User.User.StartsWith("@") && !e.PrivateMessage.User.User.StartsWith("~") && !e.PrivateMessage.User.User.StartsWith("%"))
+            if (!IsAdmin(channel, e.PrivateMessage.User))
             {
                 client.SendNotice("This is an inviter only command", e.PrivateMessage.User.Nick);
             }
             else
             {
-                client.SendNotice("Until admin checking is fixed, this command is disabled", e.PrivateMessage.User.Nick);
-
-               
+                string[] command = Regex.Split(e.PrivateMessage.Message, " ");
+                if (command.Length != 3)
+                {
+                    Console.WriteLine(e.PrivateMessage.User.Nick + " had a malformed !added command");
+                    client.SendNotice("USAGE: !added <SA_name> <character_name> - Registers that you are inviting that given SA name on the given char name", e.PrivateMessage.User.Nick);
+                }
+                else
+                {
+                    try
+                    {
+                        Result res = inviteManager.ApprovedInvite(command[1], command[2]);
+                        if (res.GetSuccess())
+                        {
+                            channel.SendMessage("Confirmed " + command[1] + " invited to guild.");
+                            Console.WriteLine("Confirmed " + command[1] + " invited to guild.");
+                        }
+                        else
+                        {
+                            Console.WriteLine(command[1] + " failed to update invite status: " + res.GetMessage());
+                            channel.SendMessage("Failed to update invite status: " + res.GetMessage());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Unable to update DB on add");
+                    }
+                }
             }
+        }
+        private static bool IsAdmin(IrcChannel c, IrcUser u)
+        {
+            if (!u.ChannelModes.ContainsKey(c) || (u.ChannelModes[c] != 'o' && u.ChannelModes[c] != 'h'))
+                return false;
+            return true;
         }
     }
 }

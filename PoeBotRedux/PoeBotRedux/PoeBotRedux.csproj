@@ -53,6 +53,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>data_AllUsers.xsd</DependentUpon>
     </Compile>
+    <Compile Include="data_Pending_Invites.cs">
+      <DependentUpon>data_Pending_Invites.xsd</DependentUpon>
+    </Compile>
     <Compile Include="data_Pending_Invites.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,6 +127,9 @@
       <Project>{4033affa-bea3-4bdf-84ea-59a23360fd36}</Project>
       <Name>ChatSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ico\Icons8-Halloween-Skeleton.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

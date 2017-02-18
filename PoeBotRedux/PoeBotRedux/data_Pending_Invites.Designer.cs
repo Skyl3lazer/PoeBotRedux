@@ -893,7 +893,7 @@ SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invit
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        invite_id, irc_name, sa_name, character_name, date_requested\r\nFROM " +
@@ -901,25 +901,31 @@ SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invit
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "INSERT INTO [t_invites] ([irc_name], [sa_name]) VALUES (@irc_name, @sa_name);\r\nSE" +
-                "LECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invites" +
-                " WHERE (invite_id = SCOPE_IDENTITY())";
+            this._commandCollection[1].CommandText = "SELECT        invite_id, irc_name, sa_name, character_name, date_requested\r\nFROM " +
+                "           t_invites\r\nWHERE        (invited = 0) AND sa_name = @SAName";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@irc_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@sa_name", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "sa_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SAName", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "sa_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"UPDATE [t_invites] SET [irc_name] = @irc_name, [sa_name] = @sa_name, [character_name] = @character_name WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([date_requested] = @Original_date_requested));
-SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invites WHERE (invite_id = @invite_id)";
+            this._commandCollection[2].CommandText = "INSERT INTO [t_invites] ([irc_name], [sa_name]) VALUES (@irc_name, @sa_name);\r\nSE" +
+                "LECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invites" +
+                " WHERE (invite_id = SCOPE_IDENTITY())";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@irc_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@sa_name", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "sa_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@character_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_invite_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_irc_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_character_name", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_date_requested", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@invite_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = @"UPDATE [t_invites] SET [irc_name] = @irc_name, [sa_name] = @sa_name, [character_name] = @character_name WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([date_requested] = @Original_date_requested));
+SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invites WHERE (invite_id = @invite_id)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@irc_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@sa_name", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "sa_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@character_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_invite_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_irc_name", global::System.Data.SqlDbType.VarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_character_name", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_date_requested", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@invite_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -941,6 +947,42 @@ SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invit
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual data_Pending_Invites.PendingInvitesDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            data_Pending_Invites.PendingInvitesDataTable dataTable = new data_Pending_Invites.PendingInvitesDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillBy(data_Pending_Invites.PendingInvitesDataTable dataTable, string SAName) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((SAName == null)) {
+                throw new global::System.ArgumentNullException("SAName");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(SAName));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual data_Pending_Invites.PendingInvitesDataTable GetDataBySAName(string SAName) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((SAName == null)) {
+                throw new global::System.ArgumentNullException("SAName");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(SAName));
+            }
             data_Pending_Invites.PendingInvitesDataTable dataTable = new data_Pending_Invites.PendingInvitesDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -1122,7 +1164,7 @@ SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invit
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertQuery(string irc_name, string sa_name) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
             if ((irc_name == null)) {
                 throw new global::System.ArgumentNullException("irc_name");
             }
@@ -1157,7 +1199,7 @@ SELECT invite_id, irc_name, sa_name, character_name, date_requested FROM t_invit
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateQuery(string irc_name, string sa_name, string character_name, int Original_invite_id, string Original_irc_name, global::System.Nullable<int> IsNull_character_name, System.DateTime Original_date_requested, int invite_id) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[3];
             if ((irc_name == null)) {
                 throw new global::System.ArgumentNullException("irc_name");
             }
