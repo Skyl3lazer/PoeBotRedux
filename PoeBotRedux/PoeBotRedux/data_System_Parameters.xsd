@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="data_System_Parameters" targetNamespace="http://tempuri.org/data_System_Parameters.xsd" xmlns:mstns="http://tempuri.org/data_System_Parameters.xsd" xmlns="http://tempuri.org/data_System_Parameters.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="poebotConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="poebotConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.PoeBotRedux.Properties.Settings.GlobalReference.Default.poebotConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="System_ParametersTableAdapter" GeneratorDataComponentClassName="System_ParametersTableAdapter" Name="System_Parameters" UserDataComponentName="System_ParametersTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Parameter, Value FROM dbo.System_Parameters</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Parameter" DataSetColumn="Parameter" />
+              <Mapping SourceColumn="Value" DataSetColumn="Value" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetChannelName" Modifier="Public" Name="GetChannelName" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="GetChannelName">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Value FROM System_Parameters WHERE Parameter = 'channel_name'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetNick" Modifier="Public" Name="GetNick" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="GetNick">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT VALUE FROM System_Parameters WHERE Parameter = 'user_nick'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetPort" Modifier="Public" Name="GetPort" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="GetPort">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Value FROM System_Parameters where Parameter = 'server_port'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetServerName" Modifier="Public" Name="GetServerName" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="GetServerName">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Value FROM System_Parameters WHERE Parameter = 'server_name'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetUserName" Modifier="Public" Name="GetUserName" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="GetUserName">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Value FROM System_Parameters WHERE Parameter = 'user_name'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="poebotConnectionString (Settings)" DbObjectName="poebot.dbo.System_Parameters" DbObjectType="View" GenerateShortCommands="true" GeneratorSourceName="GetUserPassword" Modifier="Public" Name="GetUserPassword" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="GetUserPassword">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Value FROM System_Parameters WHERE Parameter = 'user_password'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="data_System_Parameters" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="data_System_Parameters" msprop:Generator_UserDSName="data_System_Parameters">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="System_Parameters" msprop:Generator_TableClassName="System_ParametersDataTable" msprop:Generator_TableVarName="tableSystem_Parameters" msprop:Generator_RowChangedName="System_ParametersRowChanged" msprop:Generator_TablePropName="System_Parameters" msprop:Generator_RowDeletingName="System_ParametersRowDeleting" msprop:Generator_RowChangingName="System_ParametersRowChanging" msprop:Generator_RowEvHandlerName="System_ParametersRowChangeEventHandler" msprop:Generator_RowDeletedName="System_ParametersRowDeleted" msprop:Generator_RowClassName="System_ParametersRow" msprop:Generator_UserTableName="System_Parameters" msprop:Generator_RowEvArgName="System_ParametersRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Parameter" msprop:Generator_ColumnVarNameInTable="columnParameter" msprop:Generator_ColumnPropNameInRow="Parameter" msprop:Generator_ColumnPropNameInTable="ParameterColumn" msprop:Generator_UserColumnName="Parameter">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnPropNameInTable="ValueColumn" msprop:Generator_UserColumnName="Value" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:System_Parameters" />
+      <xs:field xpath="mstns:Parameter" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
