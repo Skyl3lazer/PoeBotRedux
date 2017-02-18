@@ -39,6 +39,7 @@ namespace PoeBotRedux
         {
             client.ChannelMessageRecieved += (s, e) =>
             {
+                Console.WriteLine(e.PrivateMessage.Message);
                 var channel = client.Channels[e.PrivateMessage.Source];
 
                 if (e.PrivateMessage.Message == ".list")
