@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeBotRedux", "PoeBotRedux\PoeBotRedux.csproj", "{C633398D-ABE2-475B-98AC-54340C009CC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4033AFFA-BEA3-4BDF-84EA-59A23360FD36} = {4033AFFA-BEA3-4BDF-84EA-59A23360FD36}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatSharp", "PoeBotRedux\ChatSharp\ChatSharp.csproj", "{4033AFFA-BEA3-4BDF-84EA-59A23360FD36}"
 EndProject
