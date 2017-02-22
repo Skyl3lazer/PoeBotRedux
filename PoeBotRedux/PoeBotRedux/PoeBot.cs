@@ -37,7 +37,8 @@ namespace PoeBotRedux
             client = new IrcClient(systemSettings.getServerName(), new IrcUser(systemSettings.getNick(), systemSettings.getUserName(), systemSettings.getUserPassword()));
             admins = new List<IrcUser>();
 
-            client.ConnectionComplete += (s, e) => client.JoinChannel(systemSettings.getChannelName());
+            client.ConnectionComplete += (s, e) => { client.JoinChannel(systemSettings.getChannelName());  };
+            client.ChannelTopicReceived += (s, e) => { client.Channels[0].UsersByMode = new Dictionary<char?, UserPoolView>(); };
             client.NetworkError += (s, e) => { Connect();  };
             client.NickInUse += (s, e) => { GhostNick(); };
             return true;
@@ -62,6 +63,10 @@ namespace PoeBotRedux
                 else if (e.PrivateMessage.Message.StartsWith("!added"))
                 {
                     Added(channel, e);
+                }
+                else if (e.PrivateMessage.Message.StartsWith("!check"))
+                {
+                    CheckAdmin(channel, e);
                 }
             };
             return true;
@@ -175,19 +180,25 @@ namespace PoeBotRedux
                 }
             }
         }
+        private static void CheckAdmin(IrcChannel channel, PrivateMessageEventArgs e)
+        {
+            channel.SendMessage(IsAdmin(channel, e.PrivateMessage.User).ToString());
+        }
         private static bool IsAdmin(IrcChannel c, IrcUser u)
         {
-            try
+            if (c.UsersByMode.ContainsKey('o'))
             {
-                client.GetMode(systemSettings.getChannelName());
-            }catch (InvalidOperationException ex)
-            {
-                //Do nothing? i guess
+                if(c.UsersByMode['o'].Contains(u.Nick))
+                    return true;
             }
-
-            if (!u.ChannelModes.ContainsKey(c) || (u.ChannelModes[c] != 'o' && u.ChannelModes[c] != 'h'))
-                return false;
-            return true;
+            if (c.UsersByMode.ContainsKey('h'))
+            {
+                if (c.UsersByMode['h'].Contains(u.Nick))
+                    return true;
+            }
+            if (u.ChannelModes.ContainsKey(c) &&(u.ChannelModes[c] != 'o' || u.ChannelModes[c] != 'h'))
+                return true;
+            return false;
         }
     }
 }
