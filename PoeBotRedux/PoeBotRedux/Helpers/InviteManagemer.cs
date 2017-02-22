@@ -47,7 +47,10 @@ namespace PoeBotRedux
             //If user was previously invited but needs a new invite
             else if (allUsers.Rows.Count > 0 && allUsers.Rows[0]["invited"].ToString() == "True")
             {
-                allUsersDataSet.AllUsers.Rows[int.Parse(allUsers.Rows[0]["invite_id"].ToString())-1]["invited"] = 0;
+                int row = int.Parse(allUsers.Rows[0]["invite_id"].ToString()) - 1;
+                allUsersDataSet.AllUsers.Rows[row]["invited"] = 0;
+                allUsersDataSet.AllUsers.Rows[row]["date_requested"] = System.DateTime.Now;
+                allUsersDataSet.AllUsers.Rows[row]["sa_name"] = saname;
                 try
                 {
                     allUsersAdapter.Update(allUsersDataSet);
