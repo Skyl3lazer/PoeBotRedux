@@ -64,10 +64,6 @@ namespace PoeBotRedux
                 {
                     Added(channel, e);
                 }
-                else if (e.PrivateMessage.Message.StartsWith("!check"))
-                {
-                    CheckAdmin(channel, e);
-                }
             };
             return true;
         }
@@ -179,10 +175,6 @@ namespace PoeBotRedux
                     }
                 }
             }
-        }
-        private static void CheckAdmin(IrcChannel channel, PrivateMessageEventArgs e)
-        {
-            channel.SendMessage(IsAdmin(channel, e.PrivateMessage.User).ToString());
         }
         private static bool IsAdmin(IrcChannel c, IrcUser u)
         {
