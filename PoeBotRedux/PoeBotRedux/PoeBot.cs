@@ -188,7 +188,7 @@ namespace PoeBotRedux
                 if (c.UsersByMode['h'].Contains(u.Nick))
                     return true;
             }
-            if (u.ChannelModes.ContainsKey(c) &&(u.ChannelModes[c] != 'o' || u.ChannelModes[c] != 'h'))
+            if (u.ChannelModes.ContainsKey(c) && (u.ChannelModes[c] == 'o' || u.ChannelModes[c] == 'h'))
                 return true;
             return false;
         }
