@@ -28,9 +28,8 @@ namespace PoeBotRedux
 
             Client();
             Listen();
-
-            client.ConnectAsync();
-
+            Connect();
+            
             while (true) ;
         }
         private static bool Client()
@@ -39,7 +38,8 @@ namespace PoeBotRedux
             admins = new List<IrcUser>();
 
             client.ConnectionComplete += (s, e) => client.JoinChannel(systemSettings.getChannelName());
-
+            client.NetworkError += (s, e) => { Connect();  };
+            client.NickInUse += (s, e) => { GhostNick(); };
             return true;
         }
         private static bool Listen()
@@ -65,6 +65,17 @@ namespace PoeBotRedux
                 }
             };
             return true;
+        }
+        private static void Connect()
+        {
+            client.ConnectAsync();
+        }
+        private static void GhostNick()
+        {
+            client.SendIrcMessage(new IrcMessage("/ns ghost " + systemSettings.getNick() + " " + systemSettings.getUserPassword()));
+            Thread.Sleep(5000);
+            client.SendRawMessage("PASS {0}", systemSettings.getUserPassword());
+            client.SendRawMessage("NICK {0}", systemSettings.getNick());
         }
         private static void Help(IrcChannel channel, PrivateMessageEventArgs e)
         {
@@ -166,6 +177,14 @@ namespace PoeBotRedux
         }
         private static bool IsAdmin(IrcChannel c, IrcUser u)
         {
+            try
+            {
+                client.GetMode(systemSettings.getChannelName());
+            }catch (InvalidOperationException ex)
+            {
+                //Do nothing? i guess
+            }
+
             if (!u.ChannelModes.ContainsKey(c) || (u.ChannelModes[c] != 'o' && u.ChannelModes[c] != 'h'))
                 return false;
             return true;

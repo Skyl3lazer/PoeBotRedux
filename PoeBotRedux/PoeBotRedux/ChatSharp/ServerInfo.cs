@@ -97,7 +97,7 @@ namespace ChatSharp
                 ParameterizedSettings = "k";
                 OptionallyParameterizedSettings = "flj";
                 Settings = string.Empty;
-                ChannelUserModes = "vo"; // I have no idea what I'm doing here
+                ChannelUserModes = "voh"; // I have no idea what I'm doing here
             }
 
             /// <summary>
