@@ -124,5 +124,17 @@ namespace PoeBotRedux
             LoadPendingInvites();
             return pendingInvitesDataSet.PendingInvites;
         }
+        public bool GetIgnore(string user)
+        {
+            LoadAllUsers();
+            try
+            {
+                return (bool)allUsersAdapter.GetIgnoreByName(user);
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

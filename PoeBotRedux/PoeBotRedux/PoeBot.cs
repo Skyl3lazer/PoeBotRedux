@@ -48,6 +48,13 @@ namespace PoeBotRedux
             client.ChannelMessageRecieved += (s, e) =>
             {
                 IrcChannel channel = client.Channels[e.PrivateMessage.Source];
+
+                if (e.PrivateMessage.Message.StartsWith("!"))
+                {
+                    if (!IsAdmin(channel, e.PrivateMessage.User) && IsIgnored(e.PrivateMessage.User))
+                        return;
+                }
+
                 if (e.PrivateMessage.Message == "!help")
                 {
                     Help(channel, e);
@@ -191,6 +198,10 @@ namespace PoeBotRedux
             if (u.ChannelModes.ContainsKey(c) && (u.ChannelModes[c] == 'o' || u.ChannelModes[c] == 'h'))
                 return true;
             return false;
+        }
+        private static bool IsIgnored(IrcUser u)
+        {
+            return inviteManager.GetIgnore(u.Nick);
         }
     }
 }

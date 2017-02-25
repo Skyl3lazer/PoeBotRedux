@@ -4,6 +4,9 @@
 
     partial class data_All_Users
     {
+        partial class AllUsersDataTable
+        {
+        }
     }
 }
 
