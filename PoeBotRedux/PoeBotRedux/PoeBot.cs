@@ -51,7 +51,7 @@ namespace PoeBotRedux
 
                 if (e.PrivateMessage.Message.StartsWith("!"))
                 {
-                    if (!IsAdmin(channel, e.PrivateMessage.User) && IsIgnored(e.PrivateMessage.User))
+                    if (IsIgnored(e.PrivateMessage.User))
                         return;
                 }
 
