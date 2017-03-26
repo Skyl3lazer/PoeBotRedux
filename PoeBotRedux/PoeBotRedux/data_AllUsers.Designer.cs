@@ -498,8 +498,6 @@ namespace PoeBotRedux {
                 this.columnsa_name.MaxLength = 2147483647;
                 this.columncharacter_name.MaxLength = 100;
                 this.columninvited.AllowDBNull = false;
-                this.columndate_requested.AllowDBNull = false;
-                this.columnignore.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -704,7 +702,12 @@ namespace PoeBotRedux {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public System.DateTime date_requested {
                 get {
-                    return ((global::System.DateTime)(this[this.tableAllUsers.date_requestedColumn]));
+                    try {
+                        return ((global::System.DateTime)(this[this.tableAllUsers.date_requestedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'date_requested\' in table \'AllUsers\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableAllUsers.date_requestedColumn] = value;
@@ -715,7 +718,12 @@ namespace PoeBotRedux {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool ignore {
                 get {
-                    return ((bool)(this[this.tableAllUsers.ignoreColumn]));
+                    try {
+                        return ((bool)(this[this.tableAllUsers.ignoreColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ignore\' in table \'AllUsers\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableAllUsers.ignoreColumn] = value;
@@ -732,6 +740,30 @@ namespace PoeBotRedux {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void Setcharacter_nameNull() {
                 this[this.tableAllUsers.character_nameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isdate_requestedNull() {
+                return this.IsNull(this.tableAllUsers.date_requestedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setdate_requestedNull() {
+                this[this.tableAllUsers.date_requestedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsignoreNull() {
+                return this.IsNull(this.tableAllUsers.ignoreColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetignoreNull() {
+                this[this.tableAllUsers.ignoreColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -904,14 +936,16 @@ namespace PoeBotRedux.data_All_UsersTableAdapters {
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [t_invites] WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([invited] = @Original_invited) AND ([date_requested] = @Original_date_requested) AND ([ignore] = @Original_ignore))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [t_invites] WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([invited] = @Original_invited) AND ((@IsNull_date_requested = 1 AND [date_requested] IS NULL) OR ([date_requested] = @Original_date_requested)) AND ((@IsNull_ignore = 1 AND [ignore] IS NULL) OR ([ignore] = @Original_ignore)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_invite_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_irc_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_character_name", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_character_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_invited", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "invited", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_date_requested", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_date_requested", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ignore", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ignore", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ignore", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ignore", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
@@ -926,7 +960,7 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ignore", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ignore", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [t_invites] SET [irc_name] = @irc_name, [sa_name] = @sa_name, [character_name] = @character_name, [invited] = @invited, [date_requested] = @date_requested, [ignore] = @ignore WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([invited] = @Original_invited) AND ([date_requested] = @Original_date_requested) AND ([ignore] = @Original_ignore));
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [t_invites] SET [irc_name] = @irc_name, [sa_name] = @sa_name, [character_name] = @character_name, [invited] = @invited, [date_requested] = @date_requested, [ignore] = @ignore WHERE (([invite_id] = @Original_invite_id) AND ([irc_name] = @Original_irc_name) AND ((@IsNull_character_name = 1 AND [character_name] IS NULL) OR ([character_name] = @Original_character_name)) AND ([invited] = @Original_invited) AND ((@IsNull_date_requested = 1 AND [date_requested] IS NULL) OR ([date_requested] = @Original_date_requested)) AND ((@IsNull_ignore = 1 AND [ignore] IS NULL) OR ([ignore] = @Original_ignore)));
 SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ignore FROM t_invites WHERE (invite_id = @invite_id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@irc_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "irc_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -940,7 +974,9 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_character_name", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_character_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "character_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_invited", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "invited", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_date_requested", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_date_requested", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "date_requested", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ignore", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ignore", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ignore", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ignore", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@invite_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "invite_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
@@ -1080,7 +1116,7 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, System.DateTime Original_date_requested, bool Original_ignore) {
+        public virtual int Delete(int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, global::System.Nullable<global::System.DateTime> Original_date_requested, global::System.Nullable<bool> Original_ignore) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_invite_id));
             if ((Original_irc_name == null)) {
                 throw new global::System.ArgumentNullException("Original_irc_name");
@@ -1097,8 +1133,22 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
                 this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_character_name));
             }
             this.Adapter.DeleteCommand.Parameters[4].Value = ((bool)(Original_invited));
-            this.Adapter.DeleteCommand.Parameters[5].Value = ((System.DateTime)(Original_date_requested));
-            this.Adapter.DeleteCommand.Parameters[6].Value = ((bool)(Original_ignore));
+            if ((Original_date_requested.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((System.DateTime)(Original_date_requested.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((Original_ignore.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[8].Value = ((bool)(Original_ignore.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1119,7 +1169,7 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string irc_name, string sa_name, string character_name, bool invited, System.DateTime date_requested, bool ignore) {
+        public virtual int Insert(string irc_name, string sa_name, string character_name, bool invited, global::System.Nullable<global::System.DateTime> date_requested, global::System.Nullable<bool> ignore) {
             if ((irc_name == null)) {
                 throw new global::System.ArgumentNullException("irc_name");
             }
@@ -1139,8 +1189,18 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
                 this.Adapter.InsertCommand.Parameters[2].Value = ((string)(character_name));
             }
             this.Adapter.InsertCommand.Parameters[3].Value = ((bool)(invited));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(date_requested));
-            this.Adapter.InsertCommand.Parameters[5].Value = ((bool)(ignore));
+            if ((date_requested.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(date_requested.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((ignore.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((bool)(ignore.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1161,7 +1221,7 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string irc_name, string sa_name, string character_name, bool invited, System.DateTime date_requested, bool ignore, int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, System.DateTime Original_date_requested, bool Original_ignore, int invite_id) {
+        public virtual int Update(string irc_name, string sa_name, string character_name, bool invited, global::System.Nullable<global::System.DateTime> date_requested, global::System.Nullable<bool> ignore, int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, global::System.Nullable<global::System.DateTime> Original_date_requested, global::System.Nullable<bool> Original_ignore, int invite_id) {
             if ((irc_name == null)) {
                 throw new global::System.ArgumentNullException("irc_name");
             }
@@ -1181,8 +1241,18 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
                 this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(character_name));
             }
             this.Adapter.UpdateCommand.Parameters[3].Value = ((bool)(invited));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(date_requested));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((bool)(ignore));
+            if ((date_requested.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(date_requested.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((ignore.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((bool)(ignore.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
             this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_invite_id));
             if ((Original_irc_name == null)) {
                 throw new global::System.ArgumentNullException("Original_irc_name");
@@ -1199,9 +1269,23 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
                 this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_character_name));
             }
             this.Adapter.UpdateCommand.Parameters[10].Value = ((bool)(Original_invited));
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((System.DateTime)(Original_date_requested));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((bool)(Original_ignore));
-            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(invite_id));
+            if ((Original_date_requested.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((System.DateTime)(Original_date_requested.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            if ((Original_ignore.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((bool)(Original_ignore.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[15].Value = ((int)(invite_id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1222,7 +1306,7 @@ SELECT invite_id, irc_name, sa_name, character_name, invited, date_requested, ig
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string irc_name, string sa_name, string character_name, bool invited, System.DateTime date_requested, bool ignore, int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, System.DateTime Original_date_requested, bool Original_ignore) {
+        public virtual int Update(string irc_name, string sa_name, string character_name, bool invited, global::System.Nullable<global::System.DateTime> date_requested, global::System.Nullable<bool> ignore, int Original_invite_id, string Original_irc_name, string Original_character_name, bool Original_invited, global::System.Nullable<global::System.DateTime> Original_date_requested, global::System.Nullable<bool> Original_ignore) {
             return this.Update(irc_name, sa_name, character_name, invited, date_requested, ignore, Original_invite_id, Original_irc_name, Original_character_name, Original_invited, Original_date_requested, Original_ignore, Original_invite_id);
         }
         

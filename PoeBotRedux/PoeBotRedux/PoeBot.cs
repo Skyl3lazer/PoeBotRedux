@@ -39,7 +39,7 @@ namespace PoeBotRedux
 
             client.ConnectionComplete += (s, e) => { client.JoinChannel(systemSettings.getChannelName());  };
             client.ChannelTopicReceived += (s, e) => { client.Channels[0].UsersByMode = new Dictionary<char?, UserPoolView>(); };
-            client.NetworkError += (s, e) => { Connect();  };
+            client.NetworkError += (s, e) => { client.Quit(); Connect();  };
             client.NickInUse += (s, e) => { GhostNick(); };
             return true;
         }
